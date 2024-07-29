@@ -2,6 +2,7 @@
 from rest_framework import viewsets
 from .models import User, Student, Teacher, NonTeachingStaff, Subject, Enrollment, Attendance, Exam, ExamResult, Room, Timetable, Event
 from .serializers import UserSerializer, StudentSerializer, TeacherSerializer, NonTeachingStaffSerializer, SubjectSerializer, EnrollmentSerializer, AttendanceSerializer, ExamSerializer, ExamResultSerializer, RoomSerializer, TimetableSerializer, EventSerializer
+import django_filters
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -9,7 +10,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
+    queryset = Student.objects.filter(id__role='student')
     serializer_class = StudentSerializer
 
 

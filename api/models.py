@@ -15,22 +15,22 @@ class User(AbstractUser):
     ]
     
     first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    phone_number = models.CharField(max_length=15)
-    email = models.EmailField(unique=True)
-    date_of_birth = models.DateField()
-    address = models.TextField()
+    last_name = models.CharField(max_length=255, blank=True)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True)
+    email = models.EmailField(blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    address = models.TextField(blank=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.role})"
     
 class Student(models.Model):
-    id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    admission_date = models.DateField()
-    grades = models.JSONField()
-    status = models.CharField(max_length=20)
+    id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, limit_choices_to={'id__role': 'student'})
+    admission_date = models.DateField(blank=True, null=True)
+    grades = models.JSONField(blank=True, null=True)
+    status = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
         return self.id.__str__()
