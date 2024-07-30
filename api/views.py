@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from .models import User, Student, Teacher, NonTeachingStaff, Subject, Enrollment, Attendance, Exam, ExamResult, Room, Timetable, Event
 from .serializers import UserSerializer, StudentSerializer, TeacherSerializer, NonTeachingStaffSerializer, SubjectSerializer, EnrollmentSerializer, AttendanceSerializer, ExamSerializer, ExamResultSerializer, RoomSerializer, TimetableSerializer, EventSerializer
 import django_filters
+from rest_framework import permissions
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

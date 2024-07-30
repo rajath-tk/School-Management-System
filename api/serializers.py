@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    #user = UserSerializer(source='id')
+    #user = serializers.RelatedField(source='id', read_only=True)
     
     class Meta:
         model = Student
@@ -86,6 +86,20 @@ class ExamResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExamResult
         fields = '__all__'
+    
+    def validate_marks(self, value):
+        if value is not None and value <= 0:
+            raise serializers.ValidationError("Marks must be greater than 0.")
+        return value
+    
+    def validate(self, data):
+        student = data.get('student')
+        subject = data.get('subject')
+        
+        if not Enrollment.objects.filter(student=student, subject=subject).exists():
+            raise serializers.ValidationError("The student is not enrolled in the subject for which the exam result is being created.")
+        
+        return data
 
 
 class RoomSerializer(serializers.ModelSerializer):
