@@ -36,6 +36,26 @@ class Student(models.Model):
 
     def __str__(self):
         return self.id.__str__()
+    
+    def update_grades(self):
+        exam_results = ExamResult.objects.filter(student=self)
+        grades_dict = {}
+
+        for result in exam_results:
+            exam_name = result.exam.name
+            subject_name = result.subject.name
+            marks = float(result.marks)
+
+            if exam_name not in grades_dict:
+                grades_dict[exam_name] = []
+
+            grades_dict[exam_name].append({
+                'subject': subject_name,
+                'marks': marks
+            })
+
+        self.grades = grades_dict
+        self.save()
 
 
 class Teacher(models.Model):
@@ -99,7 +119,7 @@ class ExamResult(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    marks = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    marks = models.DecimalField(max_digits=5, decimal_places=2, blank=True, default=0)
     
     class Meta:
         unique_together = ['student', 'exam', 'subject']

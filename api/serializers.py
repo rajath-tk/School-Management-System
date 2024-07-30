@@ -21,6 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class StudentSerializer(serializers.ModelSerializer):
     #user = serializers.RelatedField(source='id', read_only=True)
+    grades = serializers.JSONField(read_only=True)
     
     class Meta:
         model = Student
@@ -97,8 +98,7 @@ class ExamResultSerializer(serializers.ModelSerializer):
         subject = data.get('subject')
         
         if not Enrollment.objects.filter(student=student, subject=subject).exists():
-            raise serializers.ValidationError("The student is not enrolled in the subject for which the exam result is being created.")
-        
+            raise serializers.ValidationError("The student is not enrolled in the subject for which the exam result is being created.")    
         return data
 
 
