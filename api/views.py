@@ -2,31 +2,50 @@
 from rest_framework import viewsets
 from .models import User, Student, Teacher, NonTeachingStaff, Subject, Enrollment, Attendance, Exam, ExamResult, Room, Timetable, Event
 from .serializers import UserSerializer, StudentSerializer, TeacherSerializer, NonTeachingStaffSerializer, SubjectSerializer, EnrollmentSerializer, AttendanceSerializer, ExamSerializer, ExamResultSerializer, RoomSerializer, TimetableSerializer, EventSerializer
-import django_filters
 from rest_framework import permissions
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    filterset_fields = ['id', 'username', 'firstname', 'role']
+    filterset_fields = ['id', 'username', 'role']
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        user = self.request.user
+        return User.objects.filter(id=user.id)
 
 
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.filter(id__role='student')
     serializer_class = StudentSerializer
     filterset_fields = ['id', 'admission_date', 'status']
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Student.objects.filter(id=user.id, role='student')
 
 
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
     filterset_fields = '__all__'
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Teacher.objects.filter(id=user.id)
 
 
 class NonTeachingStaffViewSet(viewsets.ModelViewSet):
     queryset = NonTeachingStaff.objects.all()
     serializer_class = NonTeachingStaffSerializer
     filterset_fields = '__all__'
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        user = self.request.user
+        return NonTeachingStaff.objects.filter(id=user.id)
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
