@@ -20,8 +20,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    #user = serializers.RelatedField(source='id', read_only=True)
-    grades = serializers.JSONField(read_only=True)
+    username = serializers.ReadOnlyField(source='id.username')
+    email = serializers.ReadOnlyField(source='id.email')
+    first_name = serializers.ReadOnlyField(source='id.first_name')
+    last_name = serializers.ReadOnlyField(source='id.last_name')
+    role = serializers.ReadOnlyField(source='id.role')
+    gender = serializers.ReadOnlyField(source='id.gender')
+    phone_number = serializers.ReadOnlyField(source='id.phone_number')
+    date_of_birth = serializers.ReadOnlyField(source='id.date_of_birth')
+    address = serializers.ReadOnlyField(source='id.address')
     
     class Meta:
         model = Student
@@ -35,7 +42,15 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class TeacherSerializer(serializers.ModelSerializer):
-    #user = UserSerializer(source='id')
+    username = serializers.ReadOnlyField(source='id.username')
+    email = serializers.ReadOnlyField(source='id.email')
+    first_name = serializers.ReadOnlyField(source='id.first_name')
+    last_name = serializers.ReadOnlyField(source='id.last_name')
+    role = serializers.ReadOnlyField(source='id.role')
+    gender = serializers.ReadOnlyField(source='id.gender')
+    phone_number = serializers.ReadOnlyField(source='id.phone_number')
+    date_of_birth = serializers.ReadOnlyField(source='id.date_of_birth')
+    address = serializers.ReadOnlyField(source='id.address')
     
     class Meta:
         model = Teacher
@@ -48,7 +63,15 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class NonTeachingStaffSerializer(serializers.ModelSerializer):
-    #user = UserSerializer(source='id')
+    username = serializers.ReadOnlyField(source='id.username')
+    email = serializers.ReadOnlyField(source='id.email')
+    first_name = serializers.ReadOnlyField(source='id.first_name')
+    last_name = serializers.ReadOnlyField(source='id.last_name')
+    role = serializers.ReadOnlyField(source='id.role')
+    gender = serializers.ReadOnlyField(source='id.gender')
+    phone_number = serializers.ReadOnlyField(source='id.phone_number')
+    date_of_birth = serializers.ReadOnlyField(source='id.date_of_birth')
+    address = serializers.ReadOnlyField(source='id.address')
     
     class Meta:
         model = NonTeachingStaff

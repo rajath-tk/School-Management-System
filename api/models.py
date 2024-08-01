@@ -29,7 +29,7 @@ class User(AbstractUser):
         return f"{self.first_name} {self.last_name} ({self.role})"
     
 class Student(models.Model):
-    id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='student')
     admission_date = models.DateField(blank=True, null=True)
     grades = models.JSONField(blank=True, null=True)
     status = models.CharField(max_length=20, blank=True)
@@ -60,6 +60,7 @@ class Student(models.Model):
 
 class Teacher(models.Model):
     id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
         return self.id.__str__()

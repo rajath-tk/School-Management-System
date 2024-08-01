@@ -12,6 +12,8 @@ class UserViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
+        if user.is_superuser:
+            return User.objects.all()
         return User.objects.filter(id=user.id)
 
 
@@ -23,6 +25,8 @@ class StudentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        if user.is_superuser:
+            return Student.objects.all()
         return Student.objects.filter(id=user.id, role='student')
 
 
@@ -34,6 +38,8 @@ class TeacherViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        if user.is_superuser:
+            return Teacher.objects.all()
         return Teacher.objects.filter(id=user.id)
 
 
@@ -45,6 +51,8 @@ class NonTeachingStaffViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
+        if user.is_superuser:
+            return NonTeachingStaff.objects.all()
         return NonTeachingStaff.objects.filter(id=user.id)
 
 
@@ -52,6 +60,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     filterset_fields = '__all__'
+    permission_classes = [permissions.IsAdminUser]
 
 
 class EnrollmentViewSet(viewsets.ModelViewSet):
